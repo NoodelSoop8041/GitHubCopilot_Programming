@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f3ed">
+  <title>Order Confirmed | Morrow Goods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="announcement">Considered pieces, made to live with <span>·</span> Complimentary shipping over $100</div>
+  <header class="site-header">
+    <a class="wordmark" href="{{ url_for('home') }}" aria-label="Morrow Goods home">morrow<span>.</span></a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="{{ url_for('home') }}#collection">Shop</a>
+      <a href="{{ url_for('home') }}#story">Our approach</a>
+    </nav>
+    <a class="bag-link" href="{{ url_for('view_Cart') }}" aria-label="Shopping bag, {{ cart_count }} items">Bag <span>{{ cart_count }}</span></a>
+  </header>
+
+  <main class="confirmation-page">
+    <p class="eyebrow">Order received</p>
+    <h1>Thank you, {{ order.customer.name }}.</h1>
+    <p class="confirmation-message">Your demo order has been confirmed. No payment was collected.</p>
+    <section class="confirmation-summary" aria-labelledby="confirmation-title">
+      <div class="confirmation-heading">
+        <h2 id="confirmation-title">Order summary</h2>
+        <span>Reference {{ order.reference }}</span>
+      </div>
+      {% for item in order["items"] %}
+      <div class="checkout-line">
+        <span>{{ item.name }} <span class="checkout-quantity">x {{ item.quantity }}</span></span>
+        <span>${{ "%.2f"|format(item.price * item.quantity) }}</span>
+      </div>
+      {% endfor %}
+      <div class="summary-row checkout-total"><strong>Total</strong><strong>${{ "%.2f"|format(order.total) }}</strong></div>
+      <div class="delivery-details">
+        <h2>Delivery details</h2>
+        <p>{{ order.customer.name }}<br>{{ order.customer.email }}<br>{{ order.customer.address }}</p>
+      </div>
+    </section>
+    <a class="shop-link" href="{{ url_for('home') }}#collection">Continue browsing <span aria-hidden="true">↗</span></a>
+  </main>
+
+  <footer class="site-footer">
+    <a class="wordmark" href="{{ url_for('home') }}">morrow<span>.</span></a>
+    <p>Make room for good things.</p>
+    <span>© 2026 Morrow Goods</span>
+  </footer>
+</body>
+</html>

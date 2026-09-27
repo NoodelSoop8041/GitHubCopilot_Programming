@@ -4,10 +4,12 @@ Morrow Goods is a small e-commerce storefront demo built with Python and Flask. 
 
 ## Features
 
-- Responsive storefront homepage with three sample products.
+- Responsive storefront homepage with ten products across furniture, electronics, home, clothing, and accessories.
+- Catalog search by product name or category.
 - Individual product pages with descriptions, pricing, and photo galleries.
 - Shopping bag with add, quantity update, and remove actions.
-- Subtotal calculation and an empty-bag state.
+- Demo checkout with delivery details, an order confirmation, and subtotal calculation.
+- Empty-bag state.
 
 ## Requirements
 
@@ -37,11 +39,13 @@ Open http://127.0.0.1:5000 in a browser. Stop the server with `Ctrl+C`; leave th
 ## Using the storefront
 
 1. Browse the collection on the homepage.
-2. Select a product image or name to open its detail page. The sample product pages are `/products/1`, `/products/2`, and `/products/3`.
-3. Add a product to the bag from either the homepage or its detail page.
-4. Open **Bag** to change an item's quantity (1-99), remove it, or review the subtotal.
+2. Search by a product name or category, such as `wallet` or `Electronics`.
+3. Select a product image or name to open its detail page. Product pages use the `/products/<id>` route, for example `/products/1`.
+4. Add a product to the bag from either the homepage or its detail page.
+5. Open **Bag** to change an item's quantity (1-99), remove it, or review the subtotal.
+6. Continue to checkout, enter delivery details, and confirm a demo order.
 
-The bag is stored in Flask's signed session cookie. It is intended for this demo and is not a substitute for persistent order storage. The application does not include checkout, payment processing, or an inventory database.
+The bag and latest order confirmation are stored in Flask's signed session cookie. Checkout is for demonstration only: it does not collect payment, send email, or persist orders to a database.
 
 ## Project structure
 
@@ -52,6 +56,8 @@ static/style.css        Responsive storefront and cart styles
 templates/index.html    Storefront homepage
 templates/product.html Product detail page
 templates/cart.html    Shopping bag page
+templates/checkout.html Checkout form
+templates/order_confirmation.html Order confirmation
 ```
 
 ## Configuration and deployment

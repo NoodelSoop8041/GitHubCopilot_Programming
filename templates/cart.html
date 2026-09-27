@@ -53,7 +53,8 @@
         <h2>Order summary</h2>
         <div class="summary-row"><span>Subtotal</span><span>${{ "%.2f"|format(total) }}</span></div>
         <p class="shipping-note">Shipping and taxes calculated at checkout.</p>
-        <a class="shop-link checkout-link" href="{{ url_for('home') }}#collection">Continue shopping <span aria-hidden="true">↗</span></a>
+        <a class="shop-link checkout-link" href="{{ url_for('checkout') }}">Continue to checkout <span aria-hidden="true">↗</span></a>
+        <a class="continue-shopping" href="{{ url_for('home') }}#collection">Continue shopping</a>
       </aside>
     </div>
     {% else %}

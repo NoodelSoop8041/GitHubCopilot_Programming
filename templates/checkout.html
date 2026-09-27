@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f3ed">
+  <title>Checkout | Morrow Goods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="announcement">Considered pieces, made to live with <span>·</span> Complimentary shipping over $100</div>
+  <header class="site-header">
+    <a class="wordmark" href="{{ url_for('home') }}" aria-label="Morrow Goods home">morrow<span>.</span></a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="{{ url_for('home') }}#collection">Shop</a>
+      <a href="{{ url_for('home') }}#story">Our approach</a>
+    </nav>
+    <a class="bag-link" href="{{ url_for('view_Cart') }}" aria-label="Shopping bag, {{ cart_count }} items">Bag <span>{{ cart_count }}</span></a>
+  </header>
+
+  <main class="checkout-page">
+    <a class="back-link" href="{{ url_for('view_Cart') }}">← Back to your bag</a>
+    <p class="eyebrow">Delivery details</p>
+    <h1>Checkout</h1>
+    <div class="checkout-layout">
+      <form class="checkout-form" action="{{ url_for('place_order') }}" method="post">
+        {% if error %}
+        <p class="checkout-error" role="alert">{{ error }}</p>
+        {% endif %}
+        <label class="checkout-field" for="customer-name">
+          <span>Full name</span>
+          <input id="customer-name" name="name" type="text" autocomplete="name" value="{{ customer.get('name', '') }}" required>
+        </label>
+        <label class="checkout-field" for="customer-email">
+          <span>Email address</span>
+          <input id="customer-email" name="email" type="email" autocomplete="email" value="{{ customer.get('email', '') }}" required>
+        </label>
+        <label class="checkout-field" for="delivery-address">
+          <span>Delivery address</span>
+          <textarea id="delivery-address" name="address" rows="3" autocomplete="street-address" required>{{ customer.get('address', '') }}</textarea>
+        </label>
+        <p class="checkout-note">Demo checkout only. No payment will be collected.</p>
+        <button class="shop-link checkout-submit" type="submit">Confirm order <span aria-hidden="true">↗</span></button>
+      </form>
+
+      <aside class="order-summary checkout-summary">
+        <h2>Order summary</h2>
+        {% for item in cart_items %}
+        <div class="checkout-line">
+          <span>{{ item.name }} <span class="checkout-quantity">x {{ item.quantity }}</span></span>
+          <span>${{ "%.2f"|format(item.price * item.quantity) }}</span>
+        </div>
+        {% endfor %}
+        <div class="summary-row checkout-total"><strong>Total</strong><strong>${{ "%.2f"|format(total) }}</strong></div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <a class="wordmark" href="{{ url_for('home') }}">morrow<span>.</span></a>
+    <p>Make room for good things.</p>
+    <span>© 2026 Morrow Goods</span>
+  </footer>
+</body>
+</html>

@@ -42,8 +42,21 @@
           <p class="eyebrow">Small batch, big feeling</p>
           <h2>Find your new favourite.</h2>
         </div>
-        <span class="item-count">01 — 03</span>
+        <span class="item-count">
+          {{ products|length }}{% if search_query %} / {{ total_products }}{% endif %} item{% if products|length != 1 %}s{% endif %}
+        </span>
       </div>
+      <form class="catalog-search" action="{{ url_for('home') }}#collection" method="get" role="search">
+        <label class="search-field">
+          <span class="visually-hidden">Search products by name or category</span>
+          <input type="search" name="q" value="{{ search_query }}" placeholder="Search products or categories">
+        </label>
+        <button type="submit">Search</button>
+        {% if search_query %}
+        <a class="clear-search" href="{{ url_for('home', _anchor='collection') }}">Clear</a>
+        {% endif %}
+      </form>
+      {% if products %}
       <div class="product-grid">
         {% for product in products %}
         <article class="product">
@@ -63,6 +76,12 @@
         </article>
         {% endfor %}
       </div>
+      {% else %}
+      <div class="search-empty">
+        <p>No products or categories matched <strong>{{ search_query }}</strong>.</p>
+        <a class="shop-link" href="{{ url_for('home', _anchor='collection') }}">View all products <span aria-hidden="true">↗</span></a>
+      </div>
+      {% endif %}
     </section>
   </main>
 
