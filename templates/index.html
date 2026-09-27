@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f3ed">
+  <title>Morrow Goods | Objects for everyday living</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="announcement">Considered pieces, made to live with <span>·</span> Complimentary shipping over $100</div>
+  <header class="site-header">
+    <a class="wordmark" href="{{ url_for('home') }}" aria-label="Morrow Goods home">morrow<span>.</span></a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="#collection">Shop</a>
+      <a href="#story">Our approach</a>
+    </nav>
+    <a class="bag-link" href="{{ url_for('view_Cart') }}">
+        Bag <span>{{ cart_count }}</span>
+        </a>
+  </header>
+
+  <main>
+    <section class="hero" id="story">
+      <div class="hero-copy">
+        <p class="eyebrow">A little more intentional</p>
+        <h1>Good things<br>for slower days.</h1>
+        <p class="hero-description">Useful objects, honest materials, and the kind of details you notice every day.</p>
+        <a class="shop-link" href="#collection">Explore the collection <span aria-hidden="true">↘</span></a>
+        <div class="hero-note"><span class="note-mark">✳</span> Made for keeping, not replacing.</div>
+      </div>
+      <div class="hero-image" role="img" aria-label="Warm, sunlit living room with thoughtfully chosen furniture"></div>
+      <div class="hero-caption"><span>01 / THE EVERYDAY EDIT</span><span>Objects with a point of view</span></div>
+    </section>
+
+    <section class="collection" id="collection">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Small batch, big feeling</p>
+          <h2>Find your new favourite.</h2>
+        </div>
+        <span class="item-count">01 — 03</span>
+      </div>
+      <div class="product-grid">
+        {% for product in products %}
+        <article class="product">
+          <a class="product-image" style="--image-tint: {{ product.color }}" href="{{ url_for('product_detail', product_id=product.id) }}" aria-label="View {{ product.name }}">
+            <img src="{{ product.image }}" alt="{{ product.name }}" loading="lazy">
+            <span class="product-category">{{ product.category }}</span>
+          </a>
+          <div class="product-details">
+            <div>
+              <h3><a href="{{ url_for('product_detail', product_id=product.id) }}">{{ product.name }}</a></h3>
+              <p>${{ "%.2f"|format(product.price) }}</p>
+            </div>
+            <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="post">
+              <button class="add-button" type="submit" aria-label="Add {{ product.name }} to bag">+</button>
+            </form>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="wordmark" href="{{ url_for('home') }}">morrow<span>.</span></a>
+    <p>Make room for good things.</p>
+    <span>© 2026 Morrow Goods</span>
+  </footer>
+</body>
+</html>

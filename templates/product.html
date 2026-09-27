@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f3ed">
+  <title>{{ product.name }} | Morrow Goods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="announcement">Considered pieces, made to live with <span>·</span> Complimentary shipping over $100</div>
+  <header class="site-header">
+    <a class="wordmark" href="{{ url_for('home') }}" aria-label="Morrow Goods home">morrow<span>.</span></a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="{{ url_for('home') }}#collection">Shop</a>
+      <a href="{{ url_for('home') }}#story">Our approach</a>
+    </nav>
+    <a class="bag-link" href="{{ url_for('view_Cart') }}" aria-label="Shopping bag, {{ cart_count }} items">Bag <span>{{ cart_count }}</span></a>
+  </header>
+
+  <main class="product-page">
+    <a class="back-link" href="{{ url_for('home') }}#collection">← Back to the collection</a>
+    <section class="product-detail-layout">
+      <div class="detail-gallery">
+        <img class="detail-main-image{% if product.main_image_fit == 'contain' %} detail-main-image--contain{% endif %}" src="{{ product.image }}" alt="{{ product.name }}">
+        {% for image in product.gallery %}
+        <img class="detail-extra-image" src="{{ image }}" alt="{{ product.name }} view {{ loop.index + 1 }}" loading="lazy">
+        {% endfor %}
+      </div>
+      <div class="product-copy">
+        <p class="eyebrow">{{ product.category }}</p>
+        <h1>{{ product.name }}</h1>
+        <p class="detail-price">${{ "%.2f"|format(product.price) }}</p>
+        <p class="detail-description">{{ product.description }}</p>
+        <form class="detail-add-form" action="{{ url_for('add_to_cart', product_id=product.id) }}" method="post">
+          <input type="hidden" name="return_to" value="product">
+          <button class="shop-link" type="submit">Add to bag <span aria-hidden="true">+</span></button>
+        </form>
+        <p class="detail-note">Thoughtfully chosen for everyday living.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="wordmark" href="{{ url_for('home') }}">morrow<span>.</span></a>
+    <p>Make room for good things.</p>
+    <span>© 2026 Morrow Goods</span>
+  </footer>
+</body>
+</html>
